@@ -58,41 +58,42 @@ function setOperator(buttonId){
         arrayOfInputs.pop();
         console.log("Operator Replaced!");
     }
-    switch(buttonId){
-        case "plus":
-            console.log('plus: ', "plus");
-            arrayOfInputs.push("+");
+    if(arrayOfInputs.includes("+") || arrayOfInputs.includes("-") ){
+        console.log("Already has A opearto!SadASdasD!!!!!!!");
+    }else{        
+        switch(buttonId){
+            case "plus":
+                console.log('plus: ', "plus");
+                arrayOfInputs.push("+");
 
-            break;
-        case "minus":
-            console.log('minus: ', "minus");
-            arrayOfInputs.push("-");
+                break;
+            case "minus":
+                console.log('minus: ', "minus");
+                arrayOfInputs.push("-");
 
-            break;
-        case "multiply":
-            console.log('multiply: ', "multiply");
-            arrayOfInputs.push("*");
+                break;
+            case "multiply":
+                console.log('multiply: ', "multiply");
+                arrayOfInputs.push("*");
 
-            break;
-        case "divide":
-            console.log('divide: ', "divide");
-            arrayOfInputs.push("/");
+                break;
+            case "divide":
+                console.log('divide: ', "divide");
+                arrayOfInputs.push("/");
 
-            break;
-        case "percentage":
-            console.log('percentage: ', "percentage");
-            arrayOfInputs.push("%");
-            break;
-        default:
-            console.log("no valid operator!");
-            break;
+                break;
+            case "percentage":
+                console.log('percentage: ', "percentage");
+                arrayOfInputs.push("%");
+                break;
+            default:
+                console.log("no valid operator!");
+                break;
+        }
+        operator = arrayOfInputs[arrayOfInputs.length - 1];
+        console.log("Operator Set AS:"+operator);
+        setLeftOperand();
     }
-    // If array already has a operator not at last
-    // console.log("Cant press 2 opertors together!");
-
-    operator = arrayOfInputs[arrayOfInputs.length - 1];
-    console.log("Operator Set AS:"+operator);
-    setLeftOperand();
 }
 function setLeftOperand(){
     let value = "";
@@ -106,18 +107,56 @@ function setRightOperand(){
     let value = "";
     let leftOperandLength = leftOperand.length+1;
     for(let i = leftOperandLength; i <= arrayOfInputs.length -1 ; i++){
-        // push individual number
         value += arrayOfInputs[i];
     }
     rightOperand = value;
     console.log("RightOperand = "+rightOperand);
 }
 function calc(){
-    leftOperand = parseInt(leftOperand);
-    rightOperand = parseInt(rightOperand);
-    let calculation = leftOperand + rightOperand;
-    p.innerText = calculation;
-    leftOperand = calculation;
+    leftOperand = parseFloat(leftOperand);
+    rightOperand = parseFloat(rightOperand);
+    let calculation;
+    switch(operator){
+        case "+":
+            console.log("Plus!");
+            calculation = leftOperand + rightOperand;
+            break;
+        case "-":
+            console.log("Minus!");
+            calculation = leftOperand - rightOperand;
+            break;
+        case "*":
+            console.log("Multiply!");
+            calculation = leftOperand * rightOperand;
+            break;
+        case "/":
+            console.log("Divide!");
+            calculation = leftOperand / rightOperand;
+
+            break;
+        case "%":
+            console.log("Percentage!");
+            calculation = leftOperand % rightOperand;
+            break;
+        default:
+            console.log("no valid operator!");
+            break;
+    }
+    if(calculation === Infinity){
+        calculation = "Really?";
+        p.innerText = calculation;
+        leftOperand = "";
+        inputCounter = 0;
+    }
+    else if(calculation === 80085){
+        let temp = calculation;
+        calculation = calculation+"..hehe";
+        p.innerText = calculation;
+        leftOperand = temp;
+    }else{
+        p.innerText = calculation;
+        leftOperand = calculation;
+    }
     //clear array and set left operand as result
     arrayOfInputs.length = 0;
     arrayOfInputs = Array.from(String(leftOperand));
@@ -201,6 +240,7 @@ function buttonCheck(buttonId) {
             setRightOperand();
             if(rightOperand.length != 0){
                 calc();
+                operator = "";
             }
             break;
         default:
