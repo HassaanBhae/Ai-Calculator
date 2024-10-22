@@ -1,14 +1,52 @@
 const buttons = document.querySelectorAll(".button")
+const p = document.getElementById("text-window");
 let arrayOfInputs = [];
 let buttonId;
 let inputCounter = 0;
 let leftOperand,rightOperand;
 let operator = "";
 let answer = false;
+let decimalCounter = 0;
 
-console.log(buttons);
-console.log(inputCounter);
-const p = document.getElementById("text-window");
+window.addEventListener('keydown', (event) => {
+    buttonId = event.code;
+    if(buttonId ==="Slash"){
+        buttonId = "divide";
+    }else if(buttonId ==="Equal" && event.key ==="+"){
+        buttonId = "plus";
+    }else if(buttonId ==="Digit8" && event.key ==="*"){
+        buttonId = "multiply";
+    }else if(buttonId ==="Digit5" && event.key ==="%"){
+        buttonId = "percentage";
+    }else if(buttonId ==="Enter" && event.key ==="Enter"){
+        buttonId = "equate";
+    }else if(buttonId ==="Period" && event.key ==="."){
+        buttonId = "decimal";
+    }else if(buttonId ==="Backspace" && event.key ==="Backspace"){
+        buttonId = "DEL";
+    }
+    console.log('buttonId: ', buttonId);
+    if(buttonId != "DEL"){
+        buttonId = buttonId.toLowerCase();
+    }
+    simulateButtonClick(buttonId);
+    console.log(event);
+});
+
+// Function to simulate button click
+function simulateButtonClick(buttonId) {
+    const button = document.getElementById(buttonId);
+    if (button) {
+        const event = new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        });
+        button.dispatchEvent(event); // Dispatch the click event
+    } else {
+        console.error(`Button with ID ${buttonId} not found.`);
+    }
+}
 
 buttons.forEach(button => {
     button.addEventListener("click", () => {
@@ -47,7 +85,6 @@ buttons.forEach(button => {
             }
             answer = false;
             button.style.transform= "scale(1)";
-            
         }, 200); // Function will execute after 200 ms
     });
 });
@@ -101,6 +138,7 @@ function setLeftOperand(){
     }
     leftOperand = value;
     console.log("leftOperand = "+leftOperand);
+    decimalCounter = 0;
 }
 function setRightOperand(){
     let value = "";
@@ -170,49 +208,54 @@ function calc(){
 }
 function buttonCheck(buttonId) {
     switch(buttonId) {
-        case "0":
+        case "digit0":
             console.log('0: ', 0);
             arrayOfInputs.push(0);
             break;
-        case "1":
+        case "digit1":
             console.log('1: ', 1);
             arrayOfInputs.push(1);
             break;
-        case "2":
+        case "digit2":
             console.log('2: ', 2);
             arrayOfInputs.push(2);
             break;
-        case "3":
+        case "digit3":
             console.log('3: ', 3);
             arrayOfInputs.push(3);
             break;
-        case "4":
+        case "digit4":
             console.log('4: ', 4);
             arrayOfInputs.push(4);
             break;
-        case "5":
+        case "digit5":
             console.log('5: ', 5);
             arrayOfInputs.push(5);
             break;
-        case "6":
+        case "digit6":
             console.log('6: ', 6);
             arrayOfInputs.push(6);
             break;
-        case "7":
+        case "digit7":
             console.log('7: ', 7);
             arrayOfInputs.push(7);
             break;
-        case "8":
+        case "digit8":
             console.log('8: ', 8);
             arrayOfInputs.push(8);
             break;
-        case "9":
+        case "digit9":
             console.log('9: ', 9);
             arrayOfInputs.push(9);
             break;
         case "decimal":
-            console.log('decimal: ', "decimal");
-            arrayOfInputs.push(".");
+            if(decimalCounter === 0){
+                arrayOfInputs.push(".");
+                decimalCounter++;
+            }else{
+                console.log("Already Have A Decimal!");
+            }
+            console.log('decimal Counter: ',decimalCounter );
             break;
         case "AC":
             console.log("Clear ALL!");
@@ -222,6 +265,7 @@ function buttonCheck(buttonId) {
             leftOperand = "";
             leftOperandLength = 0;
             rightOperand = "";
+            console.clear();
             break;
         case "DEL":
             console.log('DEL: ', "DEL");
@@ -230,6 +274,13 @@ function buttonCheck(buttonId) {
             if(del === "+" || del === "-" || del === "/" || del === "*" || del === "%"){
                 console.log('operator Deleted: ', del);
                 operator = "";
+                if(arrayOfInputs.includes(".")){
+                    decimalCounter = 1;
+                }
+            }
+            if(del === "."){
+                decimalCounter = 0;
+                console.log("Decimal Deleted!");
             }
             if(arrayOfInputs.length === 0){
                 inputCounter = 0;
