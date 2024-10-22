@@ -33,7 +33,6 @@ buttons.forEach(button => {
             }else{
                 buttonCheck(buttonId);
             }
-            
         }
         setTimeout(() => {
             if(answer === false){
@@ -58,7 +57,7 @@ function setOperator(buttonId){
         arrayOfInputs.pop();
         console.log("Operator Replaced!");
     }
-    if(arrayOfInputs.includes("+") || arrayOfInputs.includes("-") ){
+    if(arrayOfInputs.includes("+") || arrayOfInputs.includes("-") || arrayOfInputs.includes("*") || arrayOfInputs.includes("/") || arrayOfInputs.includes("%") ){
         console.log("Already has A opearto!SadASdasD!!!!!!!");
     }else{        
         switch(buttonId){
@@ -153,9 +152,11 @@ function calc(){
         calculation = calculation+"..hehe";
         p.innerText = calculation;
         leftOperand = temp;
-    }else{
-        p.innerText = calculation;
+    }
+    else{
+        calculation = parseFloat(calculation.toFixed(3));
         leftOperand = calculation;
+        p.innerText = calculation;
     }
     //clear array and set left operand as result
     arrayOfInputs.length = 0;
@@ -229,7 +230,6 @@ function buttonCheck(buttonId) {
             if(del === "+" || del === "-" || del === "/" || del === "*" || del === "%"){
                 console.log('operator Deleted: ', del);
                 operator = "";
-                console.log(operator);
             }
             if(arrayOfInputs.length === 0){
                 inputCounter = 0;
@@ -246,6 +246,7 @@ function buttonCheck(buttonId) {
         default:
             console.log("Button Check Called!");
             break;
-    }
+        }
 }
 
+// alert( 'Your screen resolution is ' + screen.width + 'x' + screen.height );
