@@ -73,14 +73,16 @@ buttons.forEach(button => {
             }
         }
         setTimeout(() => {
-            if(answer === false){
-                if(arrayOfInputs.length <= 13){
-                    p.innerHTML ="";
-                    arrayOfInputs.forEach(input =>{
-                        p.innerHTML += input;
-                    });
-                }else{
-                    arrayOfInputs.pop();
+            if(buttonId != "AC" && inputCounter != 0){
+                if(answer === false){
+                    if(arrayOfInputs.length <= 13){
+                        p.innerHTML ="";
+                        arrayOfInputs.forEach(input =>{
+                            p.innerHTML += input;
+                        });
+                    }else{
+                        arrayOfInputs.pop();
+                    }
                 }
             }
             answer = false;
@@ -94,7 +96,7 @@ function setOperator(buttonId){
         arrayOfInputs.pop();
         console.log("Operator Replaced!");
     }
-    if(arrayOfInputs.includes("+") || arrayOfInputs.includes("-") || arrayOfInputs.includes("*") || arrayOfInputs.includes("/") || arrayOfInputs.includes("%") ){
+    if(arrayOfInputs.includes("+") || arrayOfInputs.includes("-") && arrayOfInputs[0] != "-"|| arrayOfInputs.includes("*") || arrayOfInputs.includes("/") || arrayOfInputs.includes("%") ){
         console.log("Already has A opearto!SadASdasD!!!!!!!");
     }else{        
         switch(buttonId){
@@ -265,6 +267,7 @@ function buttonCheck(buttonId) {
             leftOperand = "";
             leftOperandLength = 0;
             rightOperand = "";
+            p.innerHTML = "0";
             console.clear();
             break;
         case "DEL":
@@ -284,6 +287,7 @@ function buttonCheck(buttonId) {
             }
             if(arrayOfInputs.length === 0){
                 inputCounter = 0;
+                p.innerHTML = 0;
             }
             break;
         case "equate":
